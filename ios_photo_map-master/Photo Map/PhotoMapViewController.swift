@@ -13,6 +13,7 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
 
     @IBOutlet weak var mapView: MKMapView!
     fileprivate var photoImage: UIImage?
+    fileprivate var largeImage: UIImage?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,21 +49,19 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [String : Any]) {
         // Get the image captured by the UIImagePickerController
-        let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        largeImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         //let editedImage = info[UIImagePickerControllerEditedImage] as! UIImage
         
         let resizeRenderImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
         resizeRenderImageView.layer.borderColor = UIColor.white.cgColor
         resizeRenderImageView.layer.borderWidth = 3.0
         resizeRenderImageView.contentMode = .scaleAspectFit
-        resizeRenderImageView.image = originalImage
+        resizeRenderImageView.image = largeImage
         
         UIGraphicsBeginImageContext(resizeRenderImageView.frame.size)
         resizeRenderImageView.layer.render(in: UIGraphicsGetCurrentContext()!)
         photoImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-
-        // Do something with the images (based on your use case)
 
         // Dismiss UIImagePickerController to go back to your original view controller
         dismiss(animated: true, completion: nil)
@@ -70,21 +69,20 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
         performSegue(withIdentifier: "tagSegue", sender: nil)
     }
     
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
         if (segue.identifier == "tagSegue"){
             let destinationViewController = segue.destination as! LocationsViewController
             destinationViewController.delegate = self
+        } else if (segue.identifier == "fullImageSegue") {
+            let destinationViewController = segue.destination as! FullImageViewController
+            destinationViewController.largeImage = largeImage
         }
     }
 
     func locationsPickedLocation(controller: LocationsViewController, latitude: NSNumber, longitude: NSNumber) {
         navigationController?.popToViewController(self, animated: true)
-        /*let annotation = MKPointAnnotation()
+        /*
+        let annotation = MKPointAnnotation()
         annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
         
         annotation.title = "Picture!"
@@ -95,19 +93,19 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
         annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
         annotation.photo = photoImage
         
-        //annotation.title = "Picture!"
-        
         mapView.addAnnotation(annotation)
     }
-    
+
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let reuseID = "myAnnotationView"
         
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID)
         if (annotationView == nil) {
-            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
             annotationView!.canShowCallout = true
             annotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
+            annotationView!.rightCalloutAccessoryView = UIButton(type: UIButtonType.detailDisclosure)
+            annotationView!.image = photoImage!
         }
         
         let imageView = annotationView?.leftCalloutAccessoryView as! UIImageView
@@ -116,5 +114,7 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
         return annotationView
     }
     
-   
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        performSegue(withIdentifier: "fullImageSegue", sender: nil)
+    }
 }

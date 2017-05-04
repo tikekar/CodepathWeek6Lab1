@@ -97,7 +97,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
                 if let data = dataOrNil {
                     if let responseDictionary = try! JSONSerialization.jsonObject(
                         with: data, options:[]) as? NSDictionary {
-                            NSLog("response: \(responseDictionary)")
+                            //NSLog("response: \(responseDictionary)")
                             self.results = responseDictionary.value(forKeyPath: "response.venues") as! NSArray
                             self.tableView.reloadData()
 
