@@ -18,6 +18,7 @@
 		22BB9BD519F5DD21000048C2 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22BB9BD419F5DD21000048C2 /* LocationCell.swift */; };
 		C0BB236311B5B261447DED51 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12B190D8026AA9DA033871B1 /* Pods.framework */; };
 		E75EB81E1EBAC606006B132B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E75EB81D1EBAC606006B132B /* MapKit.framework */; };
+		E75EB8241EBACDEF006B132B /* PhotoAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E75EB8231EBACDEF006B132B /* PhotoAnnotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		22BB9BD419F5DD21000048C2 /* LocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		3798A91E53EF9F5C294484AF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E75EB81D1EBAC606006B132B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		E75EB8231EBACDEF006B132B /* PhotoAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAnnotation.swift; sourceTree = "<group>"; };
 		F5BE47FFEDE0C18F03BCCC32 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,6 +96,7 @@
 		228D474B19F5DA9F00DE9903 /* Photo Map */ = {
 			isa = PBXGroup;
 			children = (
+				E75EB81F1EBACDA0006B132B /* Model */,
 				22BB9BD319F5DCE9000048C2 /* Views */,
 				228D476E19F5DAA800DE9903 /* View Controllers */,
 				228D474E19F5DA9F00DE9903 /* AppDelegate.swift */,
@@ -165,6 +168,14 @@
 				12B190D8026AA9DA033871B1 /* Pods.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E75EB81F1EBACDA0006B132B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E75EB8231EBACDEF006B132B /* PhotoAnnotation.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -327,6 +338,7 @@
 				228D474F19F5DA9F00DE9903 /* AppDelegate.swift in Sources */,
 				11D16EF31BD08AAE00B6CBFE /* PhotoMapViewController.swift in Sources */,
 				228D477019F5DAFF00DE9903 /* LocationsViewController.swift in Sources */,
+				E75EB8241EBACDEF006B132B /* PhotoAnnotation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

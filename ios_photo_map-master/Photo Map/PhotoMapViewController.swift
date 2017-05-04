@@ -49,7 +49,18 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
                                didFinishPickingMediaWithInfo info: [String : Any]) {
         // Get the image captured by the UIImagePickerController
         let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-        let editedImage = info[UIImagePickerControllerEditedImage] as! UIImage
+        //let editedImage = info[UIImagePickerControllerEditedImage] as! UIImage
+        
+        let resizeRenderImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
+        resizeRenderImageView.layer.borderColor = UIColor.white.cgColor
+        resizeRenderImageView.layer.borderWidth = 3.0
+        resizeRenderImageView.contentMode = .scaleAspectFit
+        resizeRenderImageView.image = originalImage
+        
+        UIGraphicsBeginImageContext(resizeRenderImageView.frame.size)
+        resizeRenderImageView.layer.render(in: UIGraphicsGetCurrentContext()!)
+        photoImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
 
         // Do something with the images (based on your use case)
 
@@ -73,10 +84,18 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
 
     func locationsPickedLocation(controller: LocationsViewController, latitude: NSNumber, longitude: NSNumber) {
         navigationController?.popToViewController(self, animated: true)
-        let annotation = MKPointAnnotation()
+        /*let annotation = MKPointAnnotation()
         annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
         
         annotation.title = "Picture!"
+        
+        mapView.addAnnotation(annotation)*/
+        
+        let annotation = PhotoAnnotation()
+        annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
+        annotation.photo = photoImage
+        
+        //annotation.title = "Picture!"
         
         mapView.addAnnotation(annotation)
     }
@@ -92,7 +111,7 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
         }
         
         let imageView = annotationView?.leftCalloutAccessoryView as! UIImageView
-        imageView.image = UIImage(named: "camera")
+        imageView.image = photoImage //UIImage(named: "camera")
         
         return annotationView
     }
